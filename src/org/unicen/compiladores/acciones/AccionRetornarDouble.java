@@ -14,7 +14,6 @@ public class AccionRetornarDouble implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
-		// TODO Auto-generated method stub
 		if (c!=null)
             a.retrocederIndice();
         Double d = obtenerDouble(t.obtenerLexema());
