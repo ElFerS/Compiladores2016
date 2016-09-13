@@ -13,6 +13,7 @@ public class AccionErrorPrefijoSolo implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
+		//TODO no se esta haciendo retroceso
 		t.agregarLexema(c);
 		listErrores.add("Error en línea "+a.obtenerLineaActual()+": Prefijo Incompleto \'"+c+"\'.");
 	}

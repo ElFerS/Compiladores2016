@@ -10,8 +10,8 @@ import java.util.Vector;
 
 public class Archivo {
 	private Vector<String> caracteres = new Vector<String>();
-	private int lineaActual = 0;
-	private int indiceActual = 0;
+	private static int lineaActual = 0;
+	private static int indiceActual = 0;
 	private BufferedReader entrada;
 
 	public void load(File f,TextArea areaArchivoLex,TextArea areaArchivoSint) throws FileNotFoundException, IOException{
@@ -25,8 +25,8 @@ public class Archivo {
 			if (linea!=null)
 				this.caracteres.add(String.valueOf("\n"));
 		}
-		this.lineaActual = 1;   
-		this.indiceActual = 0;
+		lineaActual = 1;   
+		indiceActual = 0;
 		for(int i=0;i<this.caracteres.size();i++){
 			areaArchivoLex.append(this.caracteres.get(i));
 			areaArchivoSint.append(this.caracteres.get(i));
@@ -34,25 +34,25 @@ public class Archivo {
 	}
 
 	public String obtenerCaracter(){
-		if (this.indiceActual == this.caracteres.size())
+		if (Archivo.indiceActual == this.caracteres.size())
 			return null;
-		String caracter = this.caracteres.get(this.indiceActual);
+		String caracter = this.caracteres.get(Archivo.indiceActual);
 		if (caracter.equals("\n"))
-			this.lineaActual++;
-		this.indiceActual++;
+			Archivo.lineaActual++;
+		Archivo.indiceActual++;
 		return caracter;
 	}
 
 	public void retrocederIndice(){
-		if (this.indiceActual>0){
-			this.indiceActual--;
-			if (this.caracteres.get(this.indiceActual).equals("\n"))
-				this.lineaActual--;
+		if (Archivo.indiceActual>0){
+			Archivo.indiceActual--;
+			if (this.caracteres.get(Archivo.indiceActual).equals("\n"))
+				Archivo.lineaActual--;
 		}
 	}
 
 	public int obtenerLineaActual(){
-		return this.lineaActual;
+		return Archivo.lineaActual;
 	}
 
 	public void obtenerPosición(int p,javax.swing.JTextField f, javax.swing.JTextField c){

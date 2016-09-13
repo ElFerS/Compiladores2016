@@ -14,6 +14,8 @@ public class AccionRetornarEntero implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
+		if (c!=null)
+            a.retrocederIndice();
 		if (validarEntero(Integer.valueOf(t.obtenerLexema()))){
 			t.agregarLexema(c);
 			t.setearNombre("Entero");

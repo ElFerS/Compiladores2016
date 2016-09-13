@@ -13,6 +13,7 @@ public class AccionErrorCaracterInvalido implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
+		//TODO no se esta retrocediendo
 		t.agregarLexema(c);
         listErrores.add("Error en línea "+a.obtenerLineaActual()+": no se reconoce \'"+c+"\'.");
 	}

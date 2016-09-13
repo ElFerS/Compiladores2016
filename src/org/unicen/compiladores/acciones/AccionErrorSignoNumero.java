@@ -14,6 +14,7 @@ public class AccionErrorSignoNumero implements Accion {
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
 		t.agregarLexema(c);
+		//TODO no se por qué signo, si solamente espera digito
 		listErrores.add("Error en línea "+a.obtenerLineaActual()+": Se esperaba Digito o signo \'"+c+"\'.");
 	}
 

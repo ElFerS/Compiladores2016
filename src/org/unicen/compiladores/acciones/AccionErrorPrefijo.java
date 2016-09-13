@@ -13,6 +13,7 @@ public class AccionErrorPrefijo implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
+		//TODO no estoy retrocediendo
 		t.agregarLexema(c);
         listErrores.add("Error en línea "+a.obtenerLineaActual()+": Numero sin prefijo \'"+c+"\'.");
 	}
