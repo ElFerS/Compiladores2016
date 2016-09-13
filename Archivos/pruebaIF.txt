@@ -1,0 +1,1 @@
+if(z>33){teresa=14;}else{teresa=13}
