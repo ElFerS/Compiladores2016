@@ -1,5 +1,7 @@
 package org.unicen.compiladores.estructuras;
 
+import java.io.IOException;
+
 import org.unicen.compiladores.acciones.AccionAcumular;
 import org.unicen.compiladores.acciones.AccionErrorCaracterInvalido;
 import org.unicen.compiladores.acciones.AccionErrorDistinto;
@@ -43,6 +45,7 @@ import org.unicen.compiladores.acciones.AccionWarningComentario;
 
 public class Matriz {
 	
+	private PalabrasReservadas palRes;
 	private static Celda[][] matriz; 
 	private static final int RETORNAR = -1;
     private static final int ERROR = -2;
@@ -80,8 +83,15 @@ public class Matriz {
     private static final int SPACE = 30;
     
     public Matriz(){
+    //inicializo palabras reservadas
+    try {
+		palRes = new PalabrasReservadas();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+    	
     // Seteo la cantidad d
-    	Matriz.matriz = new Celda[27][29];  // 27 Estados y 29 Valores reconocibles
+    Matriz.matriz = new Celda[27][31];  // 27 Estados y 29 Valores reconocibles
 
     //  >= proximo estado ;  ERROR -2 ; RETORNAR -1
     	
@@ -125,31 +135,31 @@ public class Matriz {
     Matriz.matriz[1][I_MINUSCULA]  = new Celda(1  , new AccionAcumular());
     Matriz.matriz[1][D_MINUSCULA]  = new Celda(1  , new AccionAcumular());
     Matriz.matriz[1][D_MAYUSCULA]  = new Celda(1  , new AccionAcumular());
-    Matriz.matriz[1][SUMA]  = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][MENOS]  = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][PUNTO]  = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][DOS_PUNTOS]  = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][IGUAL] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][PARENTESIS_ABRE] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][PARENTESIS_CIERRA] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][LLAVE_ABRE] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][LLAVE_CIERRA] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][PUNTO_Y_COMA] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][COMA] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][MENOR] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][MAYOR] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][CAT] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][MULTIPLICACION] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][DIVISION] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][COMILLA_SIMPLE] = new Celda(RETORNAR , new AccionRetornarIdentificador());
+    Matriz.matriz[1][SUMA]  = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][MENOS]  = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][PUNTO]  = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][DOS_PUNTOS]  = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][IGUAL] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][PARENTESIS_ABRE] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][PARENTESIS_CIERRA] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][LLAVE_ABRE] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][LLAVE_CIERRA] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][PUNTO_Y_COMA] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][COMA] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][MENOR] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][MAYOR] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][CAT] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][MULTIPLICACION] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][DIVISION] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][COMILLA_SIMPLE] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
     Matriz.matriz[1][LETRA_N] = new Celda(1 ,  new AccionAcumular());
     Matriz.matriz[1][LETRA_C] = new Celda(1 ,  new AccionAcumular());
-    Matriz.matriz[1][ARROBA] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][NUMERAL] = new Celda(RETORNAR , new AccionRetornarIdentificador()); 
-    Matriz.matriz[1][ENTER] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][EOF] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][TAB] = new Celda(RETORNAR , new AccionRetornarIdentificador());
-    Matriz.matriz[1][SPACE] = new Celda(RETORNAR , new AccionRetornarIdentificador());
+    Matriz.matriz[1][ARROBA] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][NUMERAL] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes)); 
+    Matriz.matriz[1][ENTER] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][EOF] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][TAB] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][SPACE] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 2  --   INICIO CONSTANTE

@@ -33,4 +33,7 @@ public class Token {
     public String obtenerNombre(){
         return this.nombre;
     }
+    public String toString(){
+    	return "nombre: "+nombre+" lexema: "+lexema;
+    }
 }

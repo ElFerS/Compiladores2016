@@ -10,7 +10,7 @@ import org.unicen.compiladores.estructuras.Matriz;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.Token;
 
-public class LexicalDecoder implements Enumeration{
+public class LexicalDecoder implements Enumeration{//TODO implementar enumeration para que vaya pidiendo a un token y corra
 	
 	private static final int LETRA = 0;
     private static final int NUEMRO = 1;
@@ -54,7 +54,8 @@ public class LexicalDecoder implements Enumeration{
             entrada = this.obtenerColumna(caracter);
             m.obtenerCelda(estado,entrada).ObtenerAccion().ejecutar(caracter, t, a, jTableTokens, listErrores, jTableTS, ts);
             estado = m.obtenerCelda(estado,entrada).ObtenerEstadoSiguiente();
-        }   
+        }  
+        //TODO cual es el ultimo token ????
         return t;
     }
 

@@ -14,7 +14,7 @@ public class Archivo {
 	private static int indiceActual = 0;
 	private BufferedReader entrada;
 
-	public void load(File f,TextArea areaArchivoLex,TextArea areaArchivoSint) throws FileNotFoundException, IOException{
+	public void load(File f,TextArea areaArchivoLex) throws FileNotFoundException, IOException{
 		this.caracteres.removeAllElements();
 		entrada = new BufferedReader(new FileReader(f));
 		String linea = entrada.readLine();
@@ -29,7 +29,6 @@ public class Archivo {
 		indiceActual = 0;
 		for(int i=0;i<this.caracteres.size();i++){
 			areaArchivoLex.append(this.caracteres.get(i));
-			areaArchivoSint.append(this.caracteres.get(i));
 		}
 	}
 
