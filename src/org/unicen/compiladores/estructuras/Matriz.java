@@ -3,17 +3,6 @@ package org.unicen.compiladores.estructuras;
 import java.io.IOException;
 
 import org.unicen.compiladores.acciones.AccionAcumular;
-import org.unicen.compiladores.acciones.AccionErrorCaracterInvalido;
-import org.unicen.compiladores.acciones.AccionErrorDistinto;
-import org.unicen.compiladores.acciones.AccionErrorDoubleDigito;
-import org.unicen.compiladores.acciones.AccionErrorDoubleExponente;
-import org.unicen.compiladores.acciones.AccionErrorDoublePrefijo;
-import org.unicen.compiladores.acciones.AccionErrorDoublePunto;
-import org.unicen.compiladores.acciones.AccionErrorDoublePuntoD;
-import org.unicen.compiladores.acciones.AccionErrorDoubleSignoExponente;
-import org.unicen.compiladores.acciones.AccionErrorPrefijo;
-import org.unicen.compiladores.acciones.AccionErrorPrefijoSolo;
-import org.unicen.compiladores.acciones.AccionErrorSignoNumero;
 import org.unicen.compiladores.acciones.AccionIgnorar;
 import org.unicen.compiladores.acciones.AccionInicioAnotacion;
 import org.unicen.compiladores.acciones.AccionInicioComentario;
@@ -41,7 +30,18 @@ import org.unicen.compiladores.acciones.AccionRetornarMultipliacion;
 import org.unicen.compiladores.acciones.AccionRetornarParentesisCierra;
 import org.unicen.compiladores.acciones.AccionRetornarPuntoComa;
 import org.unicen.compiladores.acciones.AccionRetornarSuma;
-import org.unicen.compiladores.acciones.AccionWarningComentario;
+import org.unicen.compiladores.acciones.error.AccionErrorCaracterInvalido;
+import org.unicen.compiladores.acciones.error.AccionErrorDistinto;
+import org.unicen.compiladores.acciones.error.AccionErrorDoubleDigito;
+import org.unicen.compiladores.acciones.error.AccionErrorDoubleExponente;
+import org.unicen.compiladores.acciones.error.AccionErrorDoublePrefijo;
+import org.unicen.compiladores.acciones.error.AccionErrorDoublePunto;
+import org.unicen.compiladores.acciones.error.AccionErrorDoublePuntoD;
+import org.unicen.compiladores.acciones.error.AccionErrorDoubleSignoExponente;
+import org.unicen.compiladores.acciones.error.AccionErrorPrefijo;
+import org.unicen.compiladores.acciones.error.AccionErrorPrefijoSolo;
+import org.unicen.compiladores.acciones.error.AccionErrorSignoNumero;
+import org.unicen.compiladores.acciones.error.AccionWarningComentario;
 
 public class Matriz {
 	
@@ -81,6 +81,7 @@ public class Matriz {
     private static final int EOF = 28;
     private static final int TAB = 29;
     private static final int SPACE = 30;
+    private static final int CARACTER_ERROR = 31;
     
     public Matriz(){
     //inicializo palabras reservadas
@@ -126,6 +127,7 @@ public class Matriz {
     Matriz.matriz[0][EOF] = new Celda(RETORNAR , new AccionRetornarEOF());
     Matriz.matriz[0][TAB] = new Celda(0 ,  new AccionIgnorar());
     Matriz.matriz[0][SPACE] = new Celda(0 ,  new AccionIgnorar());
+    Matriz.matriz[0][CARACTER_ERROR] = new Celda(-2, new AccionErrorCaracterInvalido()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 1  --   IDENTIFICARDOR
@@ -160,6 +162,7 @@ public class Matriz {
     Matriz.matriz[1][EOF] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
     Matriz.matriz[1][TAB] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
     Matriz.matriz[1][SPACE] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
+    Matriz.matriz[1][CARACTER_ERROR] = new Celda(RETORNAR , new AccionRetornarIdentificador(palRes));
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 2  --   INICIO CONSTANTE
@@ -193,7 +196,8 @@ public class Matriz {
     Matriz.matriz[2][ENTER] = new Celda(ERROR ,  new AccionErrorPrefijoSolo());
     Matriz.matriz[2][EOF] = new Celda(ERROR ,  new AccionErrorPrefijoSolo());
     Matriz.matriz[2][TAB] = new Celda(ERROR ,  new AccionErrorPrefijoSolo());
-    Matriz.matriz[2][SPACE] = new Celda(ERROR ,  new AccionErrorPrefijoSolo());        
+    Matriz.matriz[2][SPACE] = new Celda(ERROR ,  new AccionErrorPrefijoSolo());
+    Matriz.matriz[2][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorPrefijoSolo()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 3  --   CONSTANTE ENTERA
@@ -227,7 +231,8 @@ public class Matriz {
     Matriz.matriz[3][ENTER] = new Celda(RETORNAR , new AccionErrorSignoNumero());
     Matriz.matriz[3][EOF] = new Celda(RETORNAR , new AccionErrorSignoNumero());
     Matriz.matriz[3][TAB] = new Celda(RETORNAR , new AccionErrorSignoNumero());
-    Matriz.matriz[3][SPACE] = new Celda(RETORNAR , new AccionErrorSignoNumero());        
+    Matriz.matriz[3][SPACE] = new Celda(RETORNAR , new AccionErrorSignoNumero());
+    Matriz.matriz[3][CARACTER_ERROR] = new Celda(RETORNAR , new AccionErrorSignoNumero()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 4 --   CONSTANTE ENTERA
@@ -261,8 +266,8 @@ public class Matriz {
     Matriz.matriz[4][ENTER] = new Celda(RETORNAR ,  new AccionRetornarEntero());
     Matriz.matriz[4][EOF] = new Celda(RETORNAR ,  new AccionRetornarEntero());
     Matriz.matriz[4][TAB] = new Celda(RETORNAR ,  new AccionRetornarEntero());
-    Matriz.matriz[4][SPACE] = new Celda(RETORNAR ,  new AccionRetornarEntero());        
-
+    Matriz.matriz[4][SPACE] = new Celda(RETORNAR ,  new AccionRetornarEntero());
+    Matriz.matriz[4][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarEntero());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado 5 --   CONSTANTE ENTERA
@@ -296,8 +301,8 @@ public class Matriz {
     Matriz.matriz[5][ENTER] = new Celda(ERROR ,  new AccionErrorSignoNumero());
     Matriz.matriz[5][EOF] = new Celda(ERROR ,  new AccionErrorSignoNumero());
     Matriz.matriz[5][TAB] = new Celda(ERROR ,  new AccionErrorSignoNumero());
-    Matriz.matriz[5][SPACE] = new Celda(ERROR ,  new AccionErrorSignoNumero());  
-
+    Matriz.matriz[5][SPACE] = new Celda(ERROR ,  new AccionErrorSignoNumero());
+    Matriz.matriz[5][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorSignoNumero());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado6 --   CONSTANTE DOUBLE
@@ -331,7 +336,8 @@ public class Matriz {
     Matriz.matriz[6][ENTER] = new Celda(ERROR ,  new AccionErrorDoublePrefijo());
     Matriz.matriz[6][EOF] = new Celda(ERROR ,  new AccionErrorDoublePrefijo());
     Matriz.matriz[6][TAB] = new Celda(ERROR ,  new AccionErrorDoublePrefijo());
-    Matriz.matriz[6][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePrefijo());          
+    Matriz.matriz[6][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePrefijo()); 
+    Matriz.matriz[6][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoublePrefijo());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado7 --   CONSTANTE DOUBLE
@@ -365,7 +371,8 @@ public class Matriz {
     Matriz.matriz[7][ENTER] = new Celda(ERROR ,  new AccionErrorDoubleDigito());
     Matriz.matriz[7][EOF] = new Celda(ERROR ,  new AccionErrorDoubleDigito());
     Matriz.matriz[7][TAB] = new Celda(ERROR ,  new AccionErrorDoubleDigito());
-    Matriz.matriz[7][SPACE] = new Celda(ERROR ,  new AccionErrorDoubleDigito());            
+    Matriz.matriz[7][SPACE] = new Celda(ERROR ,  new AccionErrorDoubleDigito());
+    Matriz.matriz[7][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoubleDigito()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado8 --   CONSTANTE DOUBLE
@@ -399,7 +406,8 @@ public class Matriz {
     Matriz.matriz[8][ENTER] = new Celda(ERROR ,  new AccionErrorDoublePuntoD());
     Matriz.matriz[8][EOF] = new Celda(ERROR ,  new AccionErrorDoublePuntoD());
     Matriz.matriz[8][TAB] = new Celda(ERROR ,  new AccionErrorDoublePuntoD());
-    Matriz.matriz[8][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePuntoD());          
+    Matriz.matriz[8][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePuntoD());
+    Matriz.matriz[8][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoublePuntoD()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado9 --   CONSTANTE DOUBLE
@@ -433,8 +441,8 @@ public class Matriz {
     Matriz.matriz[9][ENTER] = new Celda(RETORNAR ,  new AccionRetornarDouble());
     Matriz.matriz[9][EOF] = new Celda(RETORNAR ,  new AccionRetornarDouble());
     Matriz.matriz[9][TAB] = new Celda(RETORNAR ,  new AccionRetornarDouble());
-    Matriz.matriz[9][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDouble());          
-
+    Matriz.matriz[9][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDouble());
+    Matriz.matriz[9][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarDouble());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado10 --   CONSTANTE DOUBLE
@@ -469,7 +477,7 @@ public class Matriz {
     Matriz.matriz[10][EOF] = new Celda(ERROR ,  new AccionErrorDoubleExponente());
     Matriz.matriz[10][TAB] = new Celda(ERROR ,  new AccionErrorDoubleExponente());
     Matriz.matriz[10][SPACE] = new Celda(ERROR ,  new AccionErrorDoubleExponente());            
-
+    Matriz.matriz[10][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoubleExponente()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado11 --   CONSTANTE DOUBLE
@@ -504,7 +512,7 @@ public class Matriz {
     Matriz.matriz[11][EOF] = new Celda(ERROR ,  new AccionErrorDoubleSignoExponente());
     Matriz.matriz[11][TAB] = new Celda(ERROR ,  new AccionErrorDoubleSignoExponente());
     Matriz.matriz[11][SPACE] = new Celda(ERROR ,  new AccionErrorDoubleSignoExponente());            
-
+    Matriz.matriz[11][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoubleSignoExponente());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado12 --   CONSTANTE DOUBLE
@@ -538,7 +546,8 @@ public class Matriz {
     Matriz.matriz[12][ENTER] = new Celda(RETORNAR ,  new AccionRetornarDouble());
     Matriz.matriz[12][EOF] = new Celda(RETORNAR ,  new AccionRetornarDouble());
     Matriz.matriz[12][TAB] = new Celda(RETORNAR ,  new AccionRetornarDouble());
-    Matriz.matriz[12][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDouble());          
+    Matriz.matriz[12][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDouble());
+    Matriz.matriz[12][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarDouble()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado13 --   CAMINO ASIGNACION
@@ -573,7 +582,7 @@ public class Matriz {
     Matriz.matriz[13][EOF] = new Celda(ERROR ,  new AccionErrorCaracterInvalido());
     Matriz.matriz[13][TAB] = new Celda(ERROR ,  new AccionErrorCaracterInvalido());
     Matriz.matriz[13][SPACE] = new Celda(ERROR ,  new AccionErrorCaracterInvalido());  
-
+    Matriz.matriz[13][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorCaracterInvalido()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado14 --   CAMINO MENOR ,  MENOR IGUAL
@@ -607,7 +616,8 @@ public class Matriz {
     Matriz.matriz[14][ENTER] = new Celda(RETORNAR ,  new AccionRetornarMenor());
     Matriz.matriz[14][EOF] = new Celda(RETORNAR ,  new AccionRetornarMenor());
     Matriz.matriz[14][TAB] = new Celda(RETORNAR ,  new AccionRetornarMenor());
-    Matriz.matriz[14][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMenor());          
+    Matriz.matriz[14][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMenor());
+    Matriz.matriz[14][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarMenor());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado15 --   CAMINO MENOS ,  MENOS MENOS
@@ -641,7 +651,8 @@ public class Matriz {
     Matriz.matriz[15][ENTER] = new Celda(RETORNAR ,  new AccionRetornarMenos());
     Matriz.matriz[15][EOF] = new Celda(RETORNAR ,  new AccionRetornarMenos());
     Matriz.matriz[15][TAB] = new Celda(RETORNAR ,  new AccionRetornarMenos());
-    Matriz.matriz[15][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMenos());         
+    Matriz.matriz[15][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMenos());
+    Matriz.matriz[15][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarMenos()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado16 --   INICIO COMENTARIO ; DIVISION
@@ -675,7 +686,8 @@ public class Matriz {
     Matriz.matriz[16][ENTER] = new Celda(RETORNAR ,  new AccionRetornarDivision());
     Matriz.matriz[16][EOF] = new Celda(RETORNAR ,  new AccionRetornarDivision());
     Matriz.matriz[16][TAB] = new Celda(RETORNAR ,  new AccionRetornarDivision());
-    Matriz.matriz[16][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDivision());               
+    Matriz.matriz[16][SPACE] = new Celda(RETORNAR ,  new AccionRetornarDivision());
+    Matriz.matriz[16][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarDivision()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado17 --   INICIO COMENTARIO
@@ -710,7 +722,7 @@ public class Matriz {
     Matriz.matriz[17][EOF] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[17][TAB] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[17][SPACE] = new Celda(21 ,  new AccionInicioComentario());          
-
+    Matriz.matriz[17][CARACTER_ERROR] = new Celda(21 ,  new AccionInicioComentario());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado18 --   POSIBLE ANOTACION
@@ -744,7 +756,8 @@ public class Matriz {
     Matriz.matriz[18][ENTER] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[18][EOF] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[18][TAB] = new Celda(21 ,  new AccionInicioComentario());
-    Matriz.matriz[18][SPACE] = new Celda(21 ,  new AccionInicioComentario());   
+    Matriz.matriz[18][SPACE] = new Celda(21 ,  new AccionInicioComentario());
+    Matriz.matriz[18][CARACTER_ERROR] = new Celda(21 ,  new AccionInicioComentario());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado19 --   POSIBLE ANOTACION
@@ -778,7 +791,8 @@ public class Matriz {
     Matriz.matriz[19][ENTER] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[19][EOF] = new Celda(21 ,  new AccionInicioComentario());
     Matriz.matriz[19][TAB] = new Celda(21 ,  new AccionInicioComentario());
-    Matriz.matriz[19][SPACE] = new Celda(21 ,  new AccionInicioComentario());    
+    Matriz.matriz[19][SPACE] = new Celda(21 ,  new AccionInicioComentario());
+    Matriz.matriz[19][CARACTER_ERROR] = new Celda(21 ,  new AccionInicioComentario());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado20 --   ANOTACION
@@ -813,7 +827,7 @@ public class Matriz {
     Matriz.matriz[20][EOF] = new Celda(20 ,  new AccionAcumular());
     Matriz.matriz[20][TAB] = new Celda(20 ,  new AccionAcumular());
     Matriz.matriz[20][SPACE] = new Celda(20 ,  new AccionAcumular());   
-
+    Matriz.matriz[20][CARACTER_ERROR] = new Celda(20 ,  new AccionAcumular());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado21 --   COMENTARIO
@@ -847,7 +861,8 @@ public class Matriz {
     Matriz.matriz[21][ENTER] = new Celda(21 ,  new AccionIgnorar());
     Matriz.matriz[21][EOF] = new Celda(RETORNAR ,  new AccionWarningComentario());
     Matriz.matriz[21][TAB] = new Celda(21 ,  new AccionIgnorar());
-    Matriz.matriz[21][SPACE] = new Celda(21 ,  new AccionIgnorar());      
+    Matriz.matriz[21][SPACE] = new Celda(21 ,  new AccionIgnorar());
+    Matriz.matriz[21][CARACTER_ERROR] = new Celda(21 ,  new AccionIgnorar()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado22 --   COMENTARIO
@@ -881,7 +896,8 @@ public class Matriz {
     Matriz.matriz[22][ENTER] = new Celda(21 ,  new AccionIgnorar());
     Matriz.matriz[22][EOF] = new Celda(21 ,  new AccionIgnorar());
     Matriz.matriz[22][TAB] = new Celda(21 ,  new AccionIgnorar());
-    Matriz.matriz[22][SPACE] = new Celda(21 ,  new AccionIgnorar());              
+    Matriz.matriz[22][SPACE] = new Celda(21 ,  new AccionIgnorar());
+    Matriz.matriz[22][CARACTER_ERROR] = new Celda(21 ,  new AccionIgnorar());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado23 --   INICIO CADENA
@@ -915,7 +931,8 @@ public class Matriz {
     Matriz.matriz[23][ENTER] = new Celda(RETORNAR ,  new AccionRetornarCadena());
     Matriz.matriz[23][EOF] = new Celda(23 ,  new AccionAcumular());
     Matriz.matriz[23][TAB] = new Celda(23 ,  new AccionAcumular());
-    Matriz.matriz[23][SPACE] = new Celda(23 ,  new AccionAcumular());       
+    Matriz.matriz[23][SPACE] = new Celda(23 ,  new AccionAcumular());
+    Matriz.matriz[23][CARACTER_ERROR] = new Celda(23 ,  new AccionAcumular()); 
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado24 --   CONSTANTE DOUBLE
@@ -949,7 +966,8 @@ public class Matriz {
     Matriz.matriz[24][ENTER] = new Celda(ERROR ,  new AccionErrorDoublePunto());
     Matriz.matriz[24][EOF] = new Celda(ERROR ,  new AccionErrorDoublePunto());
     Matriz.matriz[24][TAB] = new Celda(ERROR ,  new AccionErrorDoublePunto());
-    Matriz.matriz[24][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePunto());            
+    Matriz.matriz[24][SPACE] = new Celda(ERROR ,  new AccionErrorDoublePunto());
+    Matriz.matriz[24][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDoublePunto());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado25 --   CAMINO MAYOR ,  MAYOR IGUAL
@@ -977,13 +995,14 @@ public class Matriz {
     Matriz.matriz[25][DIVISION] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][COMILLA_SIMPLE] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][LETRA_N] = new Celda(RETORNAR ,  new AccionRetornarMayor());
-    Matriz.matriz[25][24] = new Celda(RETORNAR ,  new AccionRetornarMayor());
+    Matriz.matriz[25][LETRA_C] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][ARROBA] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][NUMERAL] = new Celda(RETORNAR ,  new AccionRetornarMayor()); 
     Matriz.matriz[25][ENTER] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][EOF] = new Celda(RETORNAR ,  new AccionRetornarMayor());
     Matriz.matriz[25][TAB] = new Celda(RETORNAR ,  new AccionRetornarMayor());
-    Matriz.matriz[25][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMayor());            
+    Matriz.matriz[25][SPACE] = new Celda(RETORNAR ,  new AccionRetornarMayor());
+    Matriz.matriz[25][CARACTER_ERROR] = new Celda(RETORNAR ,  new AccionRetornarMayor());
 
     /////////////////////////////////////////////////////////////////////
     /////   Estado26 --   CAMINO DISTINTO
@@ -1017,7 +1036,8 @@ public class Matriz {
     Matriz.matriz[26][ENTER] = new Celda(ERROR ,  new AccionErrorDistinto());
     Matriz.matriz[26][EOF] = new Celda(ERROR ,  new AccionErrorDistinto());
     Matriz.matriz[26][TAB] = new Celda(ERROR ,  new AccionErrorDistinto());
-    Matriz.matriz[26][SPACE] = new Celda(ERROR ,  new AccionErrorDistinto());            
+    Matriz.matriz[26][SPACE] = new Celda(ERROR ,  new AccionErrorDistinto());
+    Matriz.matriz[26][CARACTER_ERROR] = new Celda(ERROR,  new AccionErrorDistinto());
     }    
 
 	public Celda obtenerCelda(int estado, int entrada) {
