@@ -1,13 +1,17 @@
 // Se definen los includes
 %{
-package Object;
+package org.unicen.compiladores.sintactico;
 
 import java.awt.List;
-import java.io.*;
 import javax.swing.JTable;
-import java.util.Vector;
-import java.util.Hashtable;
 
+import org.unicen.compiladores.estructuras.Archivo;
+import org.unicen.compiladores.estructuras.Matriz;
+import org.unicen.compiladores.estructuras.TablaSimbolos;
+import org.unicen.compiladores.lexico.LexicalDecoder;
+import org.unicen.compiladores.lexico.Token;
+
+import java.util.Vector;
 %}
 
 // Se definen los Tokens
@@ -176,7 +180,7 @@ conversion:  INTTODOUBLE PARENTESIS_ABRE expresion PARENTESIS_CIERRA PUNTO_COMA 
 
 %%
 
-private Lexico lexico;
+private LexicalDecoder lexico;
 private Archivo archivo;
 private Matriz matriz;
 private JTable jTableTokens;
@@ -185,8 +189,6 @@ private JTable jTableTS;
 private TablaSimbolos ts;
 private JTable jTableSentenciasSint;
 private List listErroresSint;
-private String mensaje = "";
-private Vector<String> estructuras = new Vector();
 
 public Parser(Lexico l, Archivo a, Matriz m, JTable jTableTokens, List listErrores, JTable jTableTS, TablaSimbolos ts,JTable JTableSentenciasSinc,List listErroresSint){
     this.lexico = l;
@@ -199,8 +201,6 @@ public Parser(Lexico l, Archivo a, Matriz m, JTable jTableTokens, List listError
     this.ts.limpiar();
     this.jTableSentenciasSint = JTableSentenciasSinc;
     this.listErroresSint = listErroresSint;
-    this.mensaje = "";
-    this.estructuras = new Vector();
 }
 
 private void mostrarError(String e) {
@@ -219,78 +219,45 @@ private int yylex(){
 }
 
 public int decodificarToken(Token t){
-    if (t.obtenerNombre().equals("Asignación"))
-        return this.ASIG;
-    if (t.obtenerNombre().equals("Anotación"))
-        return this.ANOTACION;
-    if (t.obtenerNombre().equals("Cadena"))
-        return this.CADENA;
-    if (t.obtenerNombre().equals("Coma"))
-        return this.COMA;
-    if (t.obtenerNombre().equals("Mayor"))
-        return this.MAYOR;
-    if (t.obtenerNombre().equals("Menor"))
-        return this.MENOR;
-    if (t.obtenerNombre().equals("MayorIgual"))
-        return this.MAYOR_IGUAL;
-    if (t.obtenerNombre().equals("MenorIgual"))
-        return this.MENOR_IGUAL;
-    if (t.obtenerNombre().equals("Igual"))
-        return this.IGUAL;
-    if (t.obtenerNombre().equals("Distinto"))
-        return this.DISTINTO;
-    if (t.obtenerNombre().equals("División"))
-        return this.DIV;
-    if (t.obtenerNombre().equals("Double"))
-        return this.NUMERODOUBLE;
-    if (t.obtenerNombre().equals("Entero"))
-        return this.NUMEROENTERO;
-    if (t.obtenerNombre().equals("Identificador")){
-            return this.IDENTIFICADOR;
-    }
-    if (t.obtenerNombre().equals("LlaveA"))
-        return this.LLAVE_ABRE;
-    if (t.obtenerNombre().equals("LlaveC"))
-        return this.LLAVE_CIERRA;
-    if (t.obtenerNombre().equals("Producto"))
-        return this.MULT;
-    if (t.obtenerNombre().equals("ParentesisA"))
-        return this.PARENTESIS_ABRE;
-    if (t.obtenerNombre().equals("ParentesisC"))
-        return this.PARENTESIS_CIERRA;
-    if (t.obtenerNombre().equals("PuntoComa"))
-        return this.PUNTO_COMA;
-    if (t.obtenerNombre().equals("Punto"))
-        return this.PUNTO;
-    if (t.obtenerNombre().equals("Resta"))
-        return this.MENOS;
-    if (t.obtenerNombre().equals("MenosMenos"))
-        return this.MENOS_MENOS;    
-    if (t.obtenerNombre().equals("Suma"))
-        return this.MAS;
-    if (t.obtenerNombre().equals("P. Reservada")){
-        if (t.obtenerLexema().equalsIgnoreCase("IF"))
-            return this.IF;
-        if (t.obtenerLexema().equalsIgnoreCase("ELSE"))
-            return this.ELSE;
-        if (t.obtenerLexema().equalsIgnoreCase("FUNCTION"))
-            return this.FUNCTION;
-        if (t.obtenerLexema().equalsIgnoreCase("WHILE"))
-            return this.WHILE;
-        if (t.obtenerLexema().equalsIgnoreCase("INTTODOUBLE"))
-            return this.INTTODOUBLE;
-        if (t.obtenerLexema().equalsIgnoreCase("PRINT"))
-            return this.PRINT;
-        if (t.obtenerLexema().equalsIgnoreCase("INTEGER"))
-            return this.INTEGER;
-        if (t.obtenerLexema().equalsIgnoreCase("DOUBLE"))
-            return this.DOUBLE;
-        if (t.obtenerLexema().equalsIgnoreCase("RETURN"))
-            return this.RETURN;  
-       if (t.obtenerLexema().equalsIgnoreCase("TO"))
-            return this.TO; 
-       if (t.obtenerLexema().equalsIgnoreCase("ALLOW"))
-            return this.ALLOW; 
+    switch (t.obtenerNombre()){
+	
+		case "Asignación": return Parser.ASIG;
+		case "Anotación": return Parser.ANOTACION;
+		case "Cadena": return Parser.CADENA;
+		case "Coma": return Parser.COMA;
+		case "Mayor": return Parser.MAYOR;
+		case "Menor": return Parser.MENOR;
+		case "MayorIgual": return Parser.MAYOR_IGUAL;
+		case "MenorIgual": return Parser.MENOR_IGUAL;
+		case "Igual": return Parser.IGUAL;
+		case "Distinto": return Parser.DISTINTO;
+		case "División": return Parser.DIV;
+		case "Double": return Parser.NUMERODOUBLE;
+		case "Entero": return Parser.NUMEROENTERO;
+		case "Identificador": return Parser.IDENTIFICADOR;
+		case "LlaveA": return Parser.LLAVE_ABRE;
+		case "LlaveC": return Parser.LLAVE_CIERRA;
+		case "Producto": return Parser.MULT;
+		case "ParentesisA": return Parser.PARENTESIS_ABRE;
+		case "ParentesisC": return Parser.PARENTESIS_CIERRA;
+		case "PuntoComa": return Parser.PUNTO_COMA;
+		case "Punto": return Parser.PUNTO;
+		case "Resta": return Parser.MENOS;
+		case "MenosMenos": return Parser.MENOS_MENOS;
+		case "Suma": return Parser.MAS;
+		case "P. Reservada": 
+			switch(t.obtenerLexema()){
+			case "IF": return Parser.IF;
+			case "ELSE": return Parser.ELSE;
+			case "FUNCTION": return Parser.FUNCTION;
+			case "WHILE": return Parser.WHILE;
+			case "INTTODOUBLE": return Parser.INTTODOUBLE;
+			case "PRINT": return Parser.PRINT;
+			case "INTEGER": return Parser.INTEGER;
+			case "DOUBLE": return Parser.DOUBLE;
+			case "RETURN": return Parser.RETURN;  
+			case "TO": return Parser.TO; 
+			case "ALLOW": return Parser.ALLOW; 
   }
     return 0;
 }

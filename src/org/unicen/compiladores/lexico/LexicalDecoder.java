@@ -1,4 +1,4 @@
-package org.unicen.compiladores.sintactico;
+package org.unicen.compiladores.lexico;
 
 import java.awt.List;
 import javax.swing.JTable;
@@ -6,7 +6,6 @@ import javax.swing.JTable;
 import org.unicen.compiladores.estructuras.Archivo;
 import org.unicen.compiladores.estructuras.Matriz;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
-import org.unicen.compiladores.lexico.Token;
 
 public class LexicalDecoder {
 	
@@ -59,105 +58,104 @@ public class LexicalDecoder {
 
     private int obtenerColumna(String caracter) {
     	
-    	switch (caracter){
+    	if (caracter==null)
+    		return LexicalDecoder.EOF;
+    	else {
+    		switch (caracter){
 
-    	case  "_":
-    		return LexicalDecoder.GUION_BAJO;
+    		case  "_":
+    			return LexicalDecoder.GUION_BAJO;
 
-    	case "i":
-    		return LexicalDecoder.I_MINUSCULA;
+    		case "i":
+    			return LexicalDecoder.I_MINUSCULA;
 
-    	case "d":
-    		return LexicalDecoder.D_MINUSCULA;
+    		case "d":
+    			return LexicalDecoder.D_MINUSCULA;
 
-    	case "D":
-    		return LexicalDecoder.D_MAYUSCULA;
+    		case "D":
+    			return LexicalDecoder.D_MAYUSCULA;
 
-    	case "+":
-    		return LexicalDecoder.SUMA;
+    		case "+":
+    			return LexicalDecoder.SUMA;
 
-    	case "*":
-    		return LexicalDecoder.MULTIPLICACION;
+    		case "*":
+    			return LexicalDecoder.MULTIPLICACION;
 
-    	case "-":
-    		return LexicalDecoder.MENOS;
+    		case "-":
+    			return LexicalDecoder.MENOS;
 
-    	case ".":
-    		return LexicalDecoder.PUNTO;
+    		case ".":
+    			return LexicalDecoder.PUNTO;
 
-    	case ":":
-    		return LexicalDecoder.DOS_PUNTOS;
+    		case ":":
+    			return LexicalDecoder.DOS_PUNTOS;
 
-    	case "=":
-    		return LexicalDecoder.IGUAL;
+    		case "=":
+    			return LexicalDecoder.IGUAL;
 
-    	case "(":
-    		return LexicalDecoder.PARENTESIS_ABRE;
+    		case "(":
+    			return LexicalDecoder.PARENTESIS_ABRE;
 
-    	case ")":
-    		return LexicalDecoder.PARENTESIS_CIERRA;
+    		case ")":
+    			return LexicalDecoder.PARENTESIS_CIERRA;
 
-    	case "{":
-    		return LexicalDecoder.LLAVE_ABRE;
+    		case "{":
+    			return LexicalDecoder.LLAVE_ABRE;
 
-    	case "}":
-    		return LexicalDecoder.LLAVE_CIERRA;
+    		case "}":
+    			return LexicalDecoder.LLAVE_CIERRA;
 
-    	case ";":
-    		return LexicalDecoder.PUNTO_Y_COMA;
+    		case ";":
+    			return LexicalDecoder.PUNTO_Y_COMA;
 
-    	case ",":
-    		return LexicalDecoder.COMA;
+    		case ",":
+    			return LexicalDecoder.COMA;
 
-    	case "<":
-    		return LexicalDecoder.MENOR;
+    		case "<":
+    			return LexicalDecoder.MENOR;
 
-    	case ">":
-    		return LexicalDecoder.MAYOR;
+    		case ">":
+    			return LexicalDecoder.MAYOR;
 
-    	case "!":
-    		return LexicalDecoder.CAT;
+    		case "!":
+    			return LexicalDecoder.CAT;
 
-    	case "/":
-    		return LexicalDecoder.DIVISION;
+    		case "/":
+    			return LexicalDecoder.DIVISION;
 
-    	case "\'":
-    		return LexicalDecoder.COMILLA_SIMPLE;
+    		case "\'":
+    			return LexicalDecoder.COMILLA_SIMPLE;
 
-    	case "N":
-    		return LexicalDecoder.LETRA_N;
+    		case "N":
+    			return LexicalDecoder.LETRA_N;
 
-    	case "C":
-    		return LexicalDecoder.LETRA_C;
+    		case "C":
+    			return LexicalDecoder.LETRA_C;
 
-    	case "@":
-    		return LexicalDecoder.ARROBA;
+    		case "@":
+    			return LexicalDecoder.ARROBA;
 
-    	case "#":
-    		return LexicalDecoder.NUMERAL;
+    		case "#":
+    			return LexicalDecoder.NUMERAL;
 
-    	case  "\n": 
-    		return LexicalDecoder.ENTER;
+    		case  "\n": 
+    			return LexicalDecoder.ENTER;
 
-    	case "\t":
-    		return LexicalDecoder.TAB;
+    		case "\t":
+    			return LexicalDecoder.TAB;
 
-    	case "\b":
-    		return LexicalDecoder.SPACE;
+    		case " ":
+    			return LexicalDecoder.SPACE;
 
-    	default: 
-    		if (esEOF(caracter)) 
-    			return LexicalDecoder.EOF;
-    		else if (esDigito(caracter))
-    			return LexicalDecoder.NUEMRO;
-    		else if (esLetra(caracter))
-    			return LexicalDecoder.LETRA;
-    		else return LexicalDecoder.CARACTER_ERROR;
+    		default: 
+    			if (esDigito(caracter))
+    				return LexicalDecoder.NUEMRO;
+    			else if (esLetra(caracter))
+    				return LexicalDecoder.LETRA;
+    			else return LexicalDecoder.CARACTER_ERROR;
+    		}
     	}
 
-    }
-    private boolean esEOF(String c){
-    	return (c==null);
     }
     private boolean esDigito(String c){
     	return (   c.compareToIgnoreCase("0")>=0 

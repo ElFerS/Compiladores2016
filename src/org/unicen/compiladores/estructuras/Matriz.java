@@ -92,7 +92,7 @@ public class Matriz {
 	}
     	
     // Seteo la cantidad d
-    Matriz.matriz = new Celda[27][31];  // 27 Estados y 29 Valores reconocibles
+    Matriz.matriz = new Celda[27][32];  // 27 Estados y 32 Valores reconocibles
 
     //  >= proximo estado ;  ERROR -2 ; RETORNAR -1
     	

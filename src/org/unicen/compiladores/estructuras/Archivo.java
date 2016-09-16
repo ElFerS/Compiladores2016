@@ -1,6 +1,5 @@
 package org.unicen.compiladores.estructuras;
 
-import java.awt.TextArea;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,13 +7,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.JTextArea;
+
 public class Archivo {
 	private Vector<String> caracteres = new Vector<String>();
 	private static int lineaActual = 0;
 	private static int indiceActual = 0;
 	private BufferedReader entrada;
 
-	public void load(File f,TextArea areaArchivoLex) throws FileNotFoundException, IOException{
+	public void load(File f,JTextArea jTextArea1) throws FileNotFoundException, IOException{
 		this.caracteres.removeAllElements();
 		entrada = new BufferedReader(new FileReader(f));
 		String linea = entrada.readLine();
@@ -28,7 +29,7 @@ public class Archivo {
 		lineaActual = 1;   
 		indiceActual = 0;
 		for(int i=0;i<this.caracteres.size();i++){
-			areaArchivoLex.append(this.caracteres.get(i));
+			jTextArea1.append(this.caracteres.get(i));
 		}
 	}
 
