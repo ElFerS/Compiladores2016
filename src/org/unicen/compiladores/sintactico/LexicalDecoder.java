@@ -1,8 +1,6 @@
 package org.unicen.compiladores.sintactico;
 
 import java.awt.List;
-import java.util.Enumeration;
-
 import javax.swing.JTable;
 
 import org.unicen.compiladores.estructuras.Archivo;
@@ -10,7 +8,7 @@ import org.unicen.compiladores.estructuras.Matriz;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.Token;
 
-public class LexicalDecoder implements Enumeration{//TODO implementar enumeration para que vaya pidiendo a un token y corra
+public class LexicalDecoder {
 	
 	private static final int LETRA = 0;
     private static final int NUEMRO = 1;
@@ -42,7 +40,8 @@ public class LexicalDecoder implements Enumeration{//TODO implementar enumeratio
     private static final int ENTER = 27;
     private static final int EOF = 28;
     private static final int TAB = 29;
-    private static final int SPACE = 30;    
+    private static final int SPACE = 30; 
+    private static final int CARACTER_ERROR = 31;
     
     public Token obtenerToken(Archivo a,Matriz m,JTable jTableTokens,List listErrores, JTable jTableTS, TablaSimbolos ts){
         Token t = new Token();
@@ -55,7 +54,6 @@ public class LexicalDecoder implements Enumeration{//TODO implementar enumeratio
             m.obtenerCelda(estado,entrada).ObtenerAccion().ejecutar(caracter, t, a, jTableTokens, listErrores, jTableTS, ts);
             estado = m.obtenerCelda(estado,entrada).ObtenerEstadoSiguiente();
         }  
-        //TODO cual es el ultimo token ????
         return t;
     }
 
@@ -152,7 +150,9 @@ public class LexicalDecoder implements Enumeration{//TODO implementar enumeratio
     			return LexicalDecoder.EOF;
     		else if (esDigito(caracter))
     			return LexicalDecoder.NUEMRO;
-    		else return LexicalDecoder.LETRA;
+    		else if (esLetra(caracter))
+    			return LexicalDecoder.LETRA;
+    		else return LexicalDecoder.CARACTER_ERROR;
     	}
 
     }
@@ -164,16 +164,14 @@ public class LexicalDecoder implements Enumeration{//TODO implementar enumeratio
     			&& c.compareToIgnoreCase("9")<=0
     			);
     }
+    public boolean esLetra(String c){
+        return (   c.compareToIgnoreCase("a")>=0 
+                && c.compareToIgnoreCase("z")<=0
+                && c.compareToIgnoreCase("d")!=0
+                && c.compareTo("i")!=0
+                && c.compareTo("C")!=0
+                && c.compareTo("N")!=0
+               );
+    }
 
-	@Override
-	public boolean hasMoreElements() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Object nextElement() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
