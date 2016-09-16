@@ -15,8 +15,6 @@ public class AccionRetonarParentesisAbre implements Accion {
 			TablaSimbolos st) {
 		t.setearNombre("ParentesisA");
         ((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});
-        if (c!=null)
-            a.retrocederIndice();
 	}
 
 }

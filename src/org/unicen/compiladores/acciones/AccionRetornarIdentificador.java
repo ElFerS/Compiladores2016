@@ -22,7 +22,9 @@ public class AccionRetornarIdentificador implements Accion {
 			TablaSimbolos st) {
 		if (c!=null)
             a.retrocederIndice(); 
-        validarIdentificador(t,a,listErrores); 
+		
+        validarIdentificador(t,a,listErrores);
+        
         if (palRes.esPalabrareservada(t.obtenerLexema())){
             t.setearNombre("P. Reservada");
             ((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});

@@ -1,9 +1,10 @@
-package org.unicen.compiladores.acciones;
+package org.unicen.compiladores.acciones.error;
 
 import java.awt.List;
 
 import javax.swing.JTable;
 
+import org.unicen.compiladores.acciones.Accion;
 import org.unicen.compiladores.estructuras.Archivo;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.Token;

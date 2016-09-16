@@ -13,7 +13,6 @@ public class AccionRetornarMenos implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
-		//TODO no se esta retrocediendo
 		t.agregarLexema(c);
         t.setearNombre("Resta");
         ((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});

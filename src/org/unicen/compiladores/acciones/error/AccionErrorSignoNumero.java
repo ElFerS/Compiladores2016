@@ -1,9 +1,10 @@
-package org.unicen.compiladores.acciones;
+package org.unicen.compiladores.acciones.error;
 
 import java.awt.List;
 
 import javax.swing.JTable;
 
+import org.unicen.compiladores.acciones.Accion;
 import org.unicen.compiladores.estructuras.Archivo;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.Token;
@@ -14,7 +15,6 @@ public class AccionErrorSignoNumero implements Accion {
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
 		t.agregarLexema(c);
-		//TODO no se por qué signo, si solamente espera digito
 		listErrores.add("Error en línea "+a.obtenerLineaActual()+": Se esperaba Digito o signo \'"+c+"\'.");
 	}
 
