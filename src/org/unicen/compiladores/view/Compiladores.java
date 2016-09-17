@@ -20,10 +20,7 @@ import org.unicen.compiladores.lexico.LexicalDecoder;
 import org.unicen.compiladores.lexico.Token;
 import org.unicen.compiladores.sintactico.Parser;
 
-/**
- *
- * @author Administrador
- */
+
 public class Compiladores extends javax.swing.JFrame {
     private Archivo archivo = new Archivo();
     private Matriz matriz = new Matriz();

@@ -1,0 +1,25 @@
+INTEGER TO DOUBLE ALLOW;
+integer a;
+{
+
+
+WHILE ( a > b ) {
+   
+   a := b;
+   c := c + e;
+
+
+
+
+             };
+
+ 
+
+}
+Fer, es por el nombre
+ya lo revise
+eso lo tengo q cambiar , separar las cosas o considerar el error
+y despues el error en sintactico en la declaracion implicita 
+ALLOW INTEGER TO DOUBLE PUNTO_COMA
+pero eso si lo debe marcar
+aunque le tengo q cambiar el mensaje q muestra por q es poco descriptivo

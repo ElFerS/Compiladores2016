@@ -11,7 +11,6 @@ import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.LexicalDecoder;
 import org.unicen.compiladores.lexico.Token;
 
-import java.util.Vector;
 %}
 
 // Se definen los Tokens
@@ -190,7 +189,7 @@ private TablaSimbolos ts;
 private JTable jTableSentenciasSint;
 private List listErroresSint;
 
-public Parser(Lexico l, Archivo a, Matriz m, JTable jTableTokens, List listErrores, JTable jTableTS, TablaSimbolos ts,JTable JTableSentenciasSinc,List listErroresSint){
+public Parser(LexicalDecoder l, Archivo a, Matriz m, JTable jTableTokens, List listErrores, JTable jTableTS, TablaSimbolos ts,JTable JTableSentenciasSinc,List listErroresSint){
     this.lexico = l;
     this.archivo = a;
     this.matriz = m;
@@ -247,17 +246,18 @@ public int decodificarToken(Token t){
 		case "Suma": return Parser.MAS;
 		case "P. Reservada": 
 			switch(t.obtenerLexema()){
-			case "IF": return Parser.IF;
-			case "ELSE": return Parser.ELSE;
-			case "FUNCTION": return Parser.FUNCTION;
-			case "WHILE": return Parser.WHILE;
-			case "INTTODOUBLE": return Parser.INTTODOUBLE;
-			case "PRINT": return Parser.PRINT;
-			case "INTEGER": return Parser.INTEGER;
-			case "DOUBLE": return Parser.DOUBLE;
-			case "RETURN": return Parser.RETURN;  
-			case "TO": return Parser.TO; 
-			case "ALLOW": return Parser.ALLOW; 
+				case "IF": return Parser.IF;
+				case "ELSE": return Parser.ELSE;
+				case "FUNCTION": return Parser.FUNCTION;
+				case "WHILE": return Parser.WHILE;
+				case "INTTODOUBLE": return Parser.INTTODOUBLE;
+				case "PRINT": return Parser.PRINT;
+				case "INTEGER": return Parser.INTEGER;
+				case "DOUBLE": return Parser.DOUBLE;
+				case "RETURN": return Parser.RETURN;  
+				case "TO": return Parser.TO; 
+				case "ALLOW": return Parser.ALLOW; 
+			} 
   }
     return 0;
 }
