@@ -15,6 +15,7 @@ public class AccionRetornarParentesisCierra implements Accion {
 			TablaSimbolos st) {
 		t.agregarLexema(c);
         t.setearNombre("ParentesisC");
+        t.setearlinea(a.obtenerLineaActual());
         ((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});
 	}
 

@@ -23,3 +23,35 @@ y despues el error en sintactico en la declaracion implicita
 ALLOW INTEGER TO DOUBLE PUNTO_COMA
 pero eso si lo debe marcar
 aunque le tengo q cambiar el mensaje q muestra por q es poco descriptivo
+###############################################################################
+ALLOW INTEGER TO DOUBLE;
+integer a, b, c, e;
+double x;
+{
+
+
+WHILE ( a > b ) {/#probando los comentarios tambien#/
+   
+	a := b;
+	c := c + e;
+	b := _i-3;
+	while (c != _i4){
+		print('te voy a mostrar siempre');/#probando los comentarios tambien#/
+	}
+
+
+}
+/# print('esta cadena no esta completa); /#@NC do something
+#/
+
+while (){/#soy un while mal definido#/
+
+c := c + e;
+double f;
+
+}
+ 
+
+}
+
+no hace nada se queda colgado, hay un while mal definido pero nunca llega 

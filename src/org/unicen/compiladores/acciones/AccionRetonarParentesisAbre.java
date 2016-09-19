@@ -13,7 +13,9 @@ public class AccionRetonarParentesisAbre implements Accion {
 	@Override
 	public void ejecutar(String c, Token t, Archivo a, JTable jTableTokens, List listErrores, JTable jTableTS,
 			TablaSimbolos st) {
+		t.agregarLexema(c);
 		t.setearNombre("ParentesisA");
+		t.setearlinea(a.obtenerLineaActual());
         ((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});
 	}
 

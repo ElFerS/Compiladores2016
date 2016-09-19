@@ -928,8 +928,8 @@ public class Matriz {
     Matriz.matriz[23][LETRA_C] = new Celda(23 ,  new AccionAcumular());
     Matriz.matriz[23][ARROBA] = new Celda(23 ,  new AccionAcumular());
     Matriz.matriz[23][NUMERAL] = new Celda(23 ,  new AccionAcumular()); 
-    Matriz.matriz[23][ENTER] = new Celda(RETORNAR ,  new AccionRetornarCadena());
-    Matriz.matriz[23][EOF] = new Celda(23 ,  new AccionAcumular());
+    Matriz.matriz[23][ENTER] = new Celda(ERROR ,  new AccionErrorCadena());//cambio RETORNAR por ERROR
+    Matriz.matriz[23][EOF] = new Celda(ERROR ,  new AccionErrorCadena());//cambio 23 por ERROR
     Matriz.matriz[23][TAB] = new Celda(23 ,  new AccionAcumular());
     Matriz.matriz[23][SPACE] = new Celda(23 ,  new AccionAcumular());
     Matriz.matriz[23][CARACTER_ERROR] = new Celda(23 ,  new AccionAcumular()); 

@@ -27,7 +27,12 @@ public class AccionRetornarEntero implements Accion {
 	}
 
     public boolean validarEntero(Integer i){
-        return new Double(i.intValue()).compareTo(Math.pow(2, 15))<=0;
+    	short limiteSuperior = (short) (((short) Math.pow(2, 15))-1);
+    	short limiteInferior = (short) (((short) Math.pow(2, 15))*-1);
+        return (   Math.abs(i.intValue()) > limiteInferior
+                && Math.abs(i.intValue()) < limiteSuperior
+               );
+      //  return new Double(i.intValue()).compareTo(Math.pow(2, 15))<=0;
     }
 
 }
