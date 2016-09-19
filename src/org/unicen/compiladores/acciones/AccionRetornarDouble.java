@@ -16,6 +16,7 @@ public class AccionRetornarDouble implements Accion {
 			TablaSimbolos st) {
 		if (c!=null)
             a.retrocederIndice();
+		t.quitarprefijo();//sacar el prefijo _d para calcular el valor double
         Double d = obtenerDouble(t.obtenerLexema());
         if (validarDouble(d)){
             t.setearNombre("Double");            

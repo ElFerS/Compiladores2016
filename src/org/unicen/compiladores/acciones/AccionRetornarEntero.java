@@ -16,8 +16,8 @@ public class AccionRetornarEntero implements Accion {
 			TablaSimbolos st) {
 		if (c!=null)
             a.retrocederIndice();
+		t.quitarprefijo(); //sin prefijo _i para obtener el valor entero
 		if (validarEntero(Integer.valueOf(t.obtenerLexema()))){
-			t.agregarLexema(c);
 			t.setearNombre("Entero");
 			((javax.swing.table.DefaultTableModel)(jTableTokens.getModel())).addRow(new String[] {t.obtenerNombre(),t.obtenerLexema()});
 			st.agregarSimbolo(new Simbolo("Entero",t.obtenerLexema().substring(0, t.obtenerLexema().length()-1)),jTableTS);

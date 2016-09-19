@@ -100,4 +100,11 @@ public class TablaSimbolos {
 		}
 		return tabla;
 	}
+	public void imprimir(JTable ts){
+        
+        for (String key : tSimbol.keySet()){
+          Simbolo s = (Simbolo) tSimbol.get(key);
+          ((javax.swing.table.DefaultTableModel)(ts.getModel())).addRow(new String[] {s.getNombre(),s.getValor()});
+        }
+	}
 }

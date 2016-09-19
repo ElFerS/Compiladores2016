@@ -15,7 +15,7 @@ public class Archivo {
 	private static int indiceActual = 0;
 	private BufferedReader entrada;
 
-	public void load(File f,JTextArea jTextArea1) throws FileNotFoundException, IOException{
+	public void load(File f,JTextArea jTextArea1, JTextArea jTextArea2) throws FileNotFoundException, IOException{
 		this.caracteres.removeAllElements();
 		entrada = new BufferedReader(new FileReader(f));
 		String linea = entrada.readLine();
