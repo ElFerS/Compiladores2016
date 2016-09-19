@@ -10,7 +10,6 @@ import org.unicen.compiladores.estructuras.Matriz;
 import org.unicen.compiladores.estructuras.TablaSimbolos;
 import org.unicen.compiladores.lexico.LexicalDecoder;
 import org.unicen.compiladores.lexico.Token;
-
 %}
 
 // Se definen los Tokens
@@ -19,12 +18,8 @@ import org.unicen.compiladores.lexico.Token;
 %%
 
 
-programa: encabezado declarativas bloqueeje {System.out.println("PROGRAMA");}
+programa: converimplicita declarativas bloqueeje {System.out.println("PROGRAMA");}
         ;
-
-encabezado : IDENTIFICADOR converimplicita  {System.out.println("encabezado : IDENTIFICADOR converimplicita");}
-           | IDENTIFICADOR                  {System.out.println("encabezado : IDENTIFICADOR");}
-           ;
 
 sentencias : sentencias sentencia  {System.out.println("sentencias : sentencias sentencia");} 
            | sentencia ;           {System.out.println("sentencias : sentencia");}
@@ -37,7 +32,8 @@ converimplicita : ALLOW INTEGER TO DOUBLE PUNTO_COMA { System.out.println("conve
                 | ALLOW INTEGER TO error             { System.out.println("converimplicita : ALLOW INTEGER TO error"); mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Conversion implicita esperada INTEGER TO DOUBLE." ); }
                 | ALLOW INTEGER error                { System.out.println("converimplicita : ALLOW INTEGER error"); mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Conversion implicita esperada INTEGER TO DOUBLE ." ); }
                 | ALLOW error                        { System.out.println("converimplicita : ALLOW error"); mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Conversion implicita esperada INTEGER TO DOUBLE ." ); }
-                 ;
+                | /* Sin conversion */               { System.out.println("converimplicita : sin conversion implicita");}
+                ;
 
 declarativas : declarativa {System.out.println("declarativas:  declarativa");}
 		 | declarativas declarativa {System.out.println("declarativas:  declarativas declarativa");}			 
@@ -54,13 +50,16 @@ declarativa : tipo lista_variables PUNTO_COMA {System.out.println("declarativa: 
             | tipo FUNCTION IDENTIFICADOR PARENTESIS_ABRE parametro PARENTESIS_CIERRA declarativas LLAVE_ABRE ejecutables RETURN PARENTESIS_ABRE error  {System.out.println("declarativa: funcion expresion error");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. expresion incorrecta." ); }
             | tipo FUNCTION IDENTIFICADOR PARENTESIS_ABRE parametro PARENTESIS_CIERRA declarativas LLAVE_ABRE ejecutables RETURN  error  {System.out.println("declarativa: funcion (");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba '('." ); }
             | tipo FUNCTION IDENTIFICADOR PARENTESIS_ABRE parametro PARENTESIS_CIERRA error        LLAVE_ABRE ejecutables RETURN PARENTESIS_ABRE expresion PARENTESIS_CIERRA LLAVE_CIERRA PUNTO_COMA   {System.out.println("declarativa: funcion  error declarativas");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Declaracion function en declarativas '('." ); }
-           
-
-           ;
+            ;
 
 parametro : /* vacio */ {System.out.println("parametro => vacio");}
           | tipo IDENTIFICADOR {System.out.println("parametro => tipo IDENTIFICADOR");}
-          | FUNCTION IDENTIFICADOR {System.out.println("parametro => FUNCTION IDENTIFICADOR");}
+          | FUNCTION IDENTIFICADOR PARENTESIS_ABRE PARENTESIS_CIERRA {System.out.println("parametro => FUNCTION IDENTIFICADOR");}
+          | tipo  {System.out.println("parametro => tipo");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba un identificador." ); }
+          | IDENTIFICADOR {System.out.println("parametro => IDENTIFICADOR");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Sin definicion del tipo en el parametro." ); }
+          | FUNCTION IDENTIFICADOR PARENTESIS_ABRE error {System.out.println("parametro :FUNCTION IDENTIFICADOR PARENTESIS_ABRE error ");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba ')'." ); }
+          | FUNCTION IDENTIFICADOR  error {System.out.println("parametro :FUNCTION IDENTIFICADOR PARENTESIS_ABRE error ");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba '('." ); }
+          | FUNCTION error {System.out.println("parametro :FUNCTION  error ");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. El nombre de la funcion." ); }
           ;
 
 
@@ -81,9 +80,9 @@ ejecutables: ejecutable {System.out.println("ejecutables: sentencia");}
 ejecutable   : asignacion {System.out.println("sentencia: asignacion");}
 		 | seleccion {System.out.println("sentencia: seleccion");}
 		 | iteracion {System.out.println("sentencia: iteracion");}
-             | conversion {System.out.println("sentencia: impresion");mostrarSentencia("Sentencia de conversión");}
 		 | impresion {System.out.println("sentencia: impresion");mostrarSentencia("Sentencia de impresión");}
-	;
+            ;
+
 
 asignacion: IDENTIFICADOR ASIG expresion PUNTO_COMA anotacion {System.out.println("asignacion: asign_izq ASIG expresion PUNTO_COMA");mostrarSentenciados( (ParserVal) val_peek(3).obj,"Sentencia de asignación");}
           | ASIG expresion PUNTO_COMA { System.out.println("asignacion: ASIG expresion PUNTO_COMA"); mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba la parte izquierda de la asignación."); }
@@ -160,7 +159,7 @@ operador_logico: MENOR {System.out.println("operador_logico: MENOR");}
 	         | DISTINTO {System.out.println("operador_logico: DISTINTO");}
 	;   
 	
-bloqueeje:   LLAVE_ABRE ejecutables LLAVE_CIERRA  {System.out.println("bloque: { ejecutables }");}
+bloqueeje: LLAVE_ABRE ejecutables LLAVE_CIERRA  {System.out.println("bloque: { ejecutables }");}
         | LLAVE_ABRE ejecutables error {System.out.println("bloque: { ejecutables error");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico. Se esperaba '}' o ';' en bloque.");}	  
 	  | LLAVE_ABRE error LLAVE_CIERRA {System.out.println("bloque: { error }");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Error Sintactico en bloque.");}
 	  | ejecutables LLAVE_CIERRA{System.out.println("bloque: ejecutables }");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Se esperaba { del bloque.");}
@@ -192,16 +191,19 @@ impresion: PRINT PARENTESIS_ABRE CADENA PARENTESIS_CIERRA PUNTO_COMA {System.out
 func: IDENTIFICADOR PARENTESIS_ABRE parametrosf PARENTESIS_CIERRA {System.out.println("func => IDENTIFICADOR PARENTESIS_ABRE parametrosf PARENTESIS_CIERRA ");mostrarSentencia("Sentencia de función");}
     | IDENTIFICADOR PARENTESIS_ABRE PARENTESIS_CIERRA {System.out.println("func => IDENTIFICADOR PARENTESIS_ABRE PARENTESIS_CIERRA  ");mostrarSentencia("Sentencia de función");}
     | INTTODOUBLE PARENTESIS_ABRE factor PARENTESIS_CIERRA  {System.out.println("func => Conversion explicita INTODUBLE");mostrarSentencia("Conversion explicita");}
+    | INTTODOUBLE PARENTESIS_ABRE  PARENTESIS_CIERRA {System.out.println("func: INTTODOUBLE PARENTESIS_ABRE  PARENTESIS_CIERRA");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Se esperaba algo a convertir.");}
+    | INTTODOUBLE PARENTESIS_ABRE factor error {System.out.println("func: INTTODOUBLE PARENTESIS_ABRE  PARENTESIS_CIERRA");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Se esperaba ')'.");}
+    | INTTODOUBLE factor  PARENTESIS_CIERRA {System.out.println("func: INTTODOUBLE factor PARENTESIS_CIERRA");mostrarError("Línea " + this.archivo.obtenerLineaActual() + ". Se esperaba '('.");}
     ;
 
 
-parametrosf : factor  {System.out.println("Parametrof => factor ");}
-            | parametrosf COMA factor {System.out.println("Parametrof => parametrosf COMA factor ");}
-            ;
-
-
-conversion:  INTTODOUBLE PARENTESIS_ABRE expresion PARENTESIS_CIERRA PUNTO_COMA {System.out.println("Conversion ");}
-          ;
+parametrosf: IDENTIFICADOR {System.out.println("factor: IDENTIFICADOR");}
+	     | NUMEROENTERO {System.out.println("factor: NUMEROENTERO");tratarEnteroPositivo($1.sval);}  
+	     | MENOS NUMEROENTERO {System.out.println("factor: MENOS NUMEROENTERO");mostrarSentencia("Entero negativo");tratarEnteroNegativo($2.sval);}  
+	     | NUMERODOUBLE {System.out.println("factor: NUMERODOUBLE");}
+	     | MENOS NUMERODOUBLE {System.out.println("factor: MENOS NUMERODOUBLE");mostrarSentencia("Double negativo");tratarDoubleNegativo($2.sval);}
+           | IDENTIFICADOR PARENTESIS_ABRE  PARENTESIS_CIERRA
+;
 
 %%
 
@@ -215,6 +217,7 @@ private TablaSimbolos ts;
 private JTable jTableSentenciasSint;
 private List listErroresSint;
 
+
 public Parser(LexicalDecoder l, Archivo a, Matriz m, JTable jTableTokens, List listErrores, JTable jTableTS, TablaSimbolos ts,JTable JTableSentenciasSinc,List listErroresSint){
     this.lexico = l;
     this.archivo = a;
@@ -226,8 +229,6 @@ public Parser(LexicalDecoder l, Archivo a, Matriz m, JTable jTableTokens, List l
     this.ts.limpiar();
     this.jTableSentenciasSint = JTableSentenciasSinc;
     this.listErroresSint = listErroresSint;
-    this.mensaje = "";
-    this.estructuras = new Vector();
 }
 
 private void mostrarError(String e) {
@@ -247,7 +248,7 @@ private int yylex(){
 }
 
 public int decodificarToken(Token t){
-    switch (t.obtenerNombre()){
+     switch (t.obtenerNombre()){
 	
 		case "Asignación": return Parser.ASIG;
 		case "Anotación": return Parser.ANOTACION;

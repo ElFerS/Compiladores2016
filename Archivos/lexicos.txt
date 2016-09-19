@@ -1,0 +1,116 @@
+
+
+/# Pruebas : "Constantes con y sin prefijo."
+Para números reales, ademas, mantisa con y sin parte decimal,
+ con y sin exponente, con exponente positivo y negativo.
+#/
+											 
+	
+	_i5
+	_i-5
+	_5
+	i5
+	
+	_d.
+	_d1.
+	_d.6
+	_d-1.2
+	_d3.D-5
+	_d2.5D1
+	_d13.
+	_d0.
+	
+	d.
+	_.
+	_d-1.
+	_d+1.2
+	_d4.6D+7
+
+	
+	
+/# Pruebas : Constantes con el primer y ultimo valor dentro del rango.
+Constantes con el primer y último valor fuera del rango.
+ #/	
+	
+a:= _i32768;
+a:= _i32767;
+a:= _i32769;
+a:= _i32766;
+
+a:= _i-32767;
+a:= _i-32768;
+a:= _i-32769;
+
+
+b:= _d2.2250738585072014d-308;
+b:= _d2.2250738585072014d-307;
+b:= _d2.2250738585072014d-309;
+
+b:= _d-2.2250738585072014d-308;
+b:= _d-2.2250738585072014d-307;
+b:= _d-2.2250738585072014d-309;
+
+b:= _d1.7976931348623157d308;
+b:= _d1.7976931348623157d307;
+b:= _d1.7976931348623157d309;
+
+b:= _d-1.7976931348623157d308;
+b:= _d-1.7976931348623157d307;
+b:= _d-1.7976931348623157d309;
+
+
+
+/# Pruebas : Identificadores de menos y mas de 20 caracteres.
+             Identificadores con letras y digitos.
+			 Identificadores que empiecen con dígito y "_".
+             #/	  
+
+Estetienemasdeveintecaracteres
+
+esteno
+
+empienzanconletras
+
+tiene33333
+
+tiene__333
+
+a23_345
+
+7condigitonosepuede
+
+identificadora
+identificadorA
+
+_nopuedecomenzar
+
+
+
+
+/# Pruebas : Palabras reservadas escritas en minusculas y mayusculas.
+             Comentarios bien y mal definidos.
+			 Cadenas bien y mal definidas.
+			 Anotaciones bien y mal definidas.
+             #/	  
+			 
+if
+IF
+while
+WHILE
+to
+TO
+inTeger
+INteger
+
+
+'es una cadena'
+'no llega a ser cadena
+
+/#@NC lo que sigue es una anotacion
+
+/#@ pero sino no definis bien la anotacion pasa a ser un comentario mal definido.
+
+			 
+			 
+			 
+			 

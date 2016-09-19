@@ -1,0 +1,156 @@
+/# Pruebas sintacticas 
+   Programa completo con los puntos a reconocer #/
+
+ALLOW INTEGER TO DOUBLE;   /#  Conversion implicita #/
+
+integer a,b,d; /#  Definicion Entero #/
+double  c,d,e; /#  Definicion Double #/
+
+integer function cuadrado(integer n)  /# Function integer  #/
+        integer exp,result;
+		{
+		exp := _i2;
+		a:= _i1;
+		while (a <= c ){
+		  result:= n * n;
+		  c := exp--;
+	        };
+		return (result)
+		};
+
+double function pi()	   /# Function double  #/
+      double pnumer;
+       {
+	   pnumer := _d3.14;
+	   Return (pnumer)
+	   };	  
+		
+{
+
+  /# Asignacion #/
+
+  a:= a + b;
+  a:= a - c;
+  a:= a * c + c;
+  b:= a-- - d;
+  b:= cuadrado(b);
+  c := inttodouble(b);
+  d := c + intodouble(d) * pi();   /#@NC Agrego una anotacion importante
+  a:= INTTODOUBLE(_d.6) + _i8; 
+
+
+  /# Seleccion #/
+
+      if ( j != _i2 ) {
+           
+           print('distinto de 2');
+
+          };
+    else {
+         /# comentario en el else #/
+         a:= _i99; /#@NC Puse una anotacion
+         
+        };
+
+  If ( a<b) {
+    
+   t := inttodouble(_i7) + raul(_i2) + _d.5;
+   };
+
+  if ( a = c ) {
+     z := x * _d3.25;
+
+    };
+
+   if ( a >= b) {
+     a:= a + _i6 / _i5;   
+       
+     }
+   else {
+    
+    c := pi() + _d.7;
+ 
+   }
+
+
+ /# iteracion #/
+
+
+ 
+while ( i <= _i10 ) {
+
+    
+
+    if ( j != _i2 ) {
+           
+           print('distinto de 2');
+
+          
+
+          };
+    else {
+         /# comentario en el else #/
+         a:= _i99; /#@NC Puse una anotacion
+         
+        };
+
+    i := i + _i1;
+
+                  };
+ 
+
+while ( i != j) {
+
+    
+    while ( j > h) {
+
+
+       if ( _i1 = j) {
+            
+          a:= _i8 / _i6 + _i3 + _i1; /#@NC Anotacion suma 
+
+         };
+
+       if ( t < u ) {
+          
+            u := intodouble(_i1) + pi();
+
+       };
+
+
+    }; /# ciere while ( j > h)  #/
+   
+};  /# ciere while ( i != j) #/
+  
+
+
+if (a>b) 
+	{
+		a:= _d2.;
+	} ;
+else
+	{
+		if ( _i67 * _d523. > b)
+			{
+				print('algo');
+				while (a> _i3) 
+					{
+						a := a-1i;
+						if(a = b)
+							{
+								a := _i-3 / _d5. + _d4.2 * _d3.;
+							}
+						else
+							{
+								print('casa');
+							}
+					};
+			};
+		else
+			{
+				b := _d-523.;
+			};
+	};
+
+
+}		
